@@ -2,11 +2,16 @@ const express = require('express');
 const router = express.Router();
 const showsController = require('../controllers/shows');
 const { showValidationRules, validate } = require('../middleware/validation');
+const { ensureAuth } = require('../middleware/check-auth');
+const { ensureAdmin } = require('../middleware/check-role');
 
 router.get('/', showsController.getAllShows);
 router.get('/:id', showsController.getShowById);
-router.post('/', showValidationRules(), validate, showsController.createShow);
-router.put('/:id', showValidationRules(), validate, showsController.updateShow);
-router.delete('/:id', showsController.deleteShow);
+router.post('/', ensureAuth, showValidationRules(), validate, showsController.createShow);
+/*  #swagger.security = [{ "google": ["profile"] }] */
+router.put('/:id', ensureAuth, showValidationRules(), validate, showsController.updateShow);
+/*  #swagger.security = [{ "google": ["profile"] }] */
+router.delete('/:id', ensureAuth, ensureAdmin, showsController.deleteShow);
+/*  #swagger.security = [{ "google": ["profile"] }] */
 
 module.exports = router;
