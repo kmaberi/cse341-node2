@@ -13,20 +13,19 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-    new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: '/auth/google/callback'
+    new GitHubStrategy({
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: '/auth/github/callback'
     }, (accessToken, refreshToken, profile, done) => {
-        User.findOne({ googleId: profile.id }).then((currentUser) => {
+        User.findOne({ githubId: profile.id }).then((currentUser) => {
             if (currentUser) {
                 done(null, currentUser);
             } else {
                 new User({
-                    googleId: profile.id,
+                    githubId: profile.id,
                     displayName: profile.displayName,
-                    firstName: profile.name.givenName,
-                    lastName: profile.name.familyName,
+                    username: profile.username,
                     image: profile.photos[0].value
                 }).save().then((newUser) => {
                     done(null, newUser);

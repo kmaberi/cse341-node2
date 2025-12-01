@@ -13,12 +13,12 @@ router.get('/logout', (req, res) => {
 });
 
 // auth with google
-router.get('/google', passport.authenticate('google', {
-    scope: ['profile']
+router.get('/auth/github', passport.authenticate('github', {
+    scope: ['user:email']
 }));
 
 // callback route for google to redirect to
-router.get('/google/callback', passport.authenticate('google'), (req, res) => {
+router.get('/auth/github/callback', passport.authenticate('github'), (req, res) => {
     res.redirect('/profile/');
 });
 

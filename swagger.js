@@ -8,12 +8,12 @@ const doc = {
     host: 'localhost:8080',
     schemes: ['http'],
     securityDefinitions: {
-        google: {
+        githubOAuth: {
             type: 'oauth2',
-            authorizationUrl: 'http://localhost:8080/auth/google',
+            authorizationUrl: 'https://github.com/login/oauth/authorize',
             flow: 'implicit',
             scopes: {
-                profile: 'Grants access to your profile information'
+                user: 'Grants access to user profile'
             }
         }
     }
