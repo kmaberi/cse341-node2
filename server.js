@@ -26,10 +26,4 @@ app.use('/', require('./routes'));
 app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 
-const port = process.env.PORT || 8080;
-
-connection().then(() => {
-    app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-    });
-});
+app.listen(process.env.PORT || 3000);
