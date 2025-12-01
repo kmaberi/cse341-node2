@@ -9,9 +9,13 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(session({
-    secret: 'your secret key',
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

@@ -35,5 +35,10 @@
   "bugs": {
     "url": "https://github.com/kmaberi/cse341-node2/issues"
   },
-  "homepage": "https://github.com/kmaberi/cse341-node2#readme"
+  "homepage": "https://github.com/kmaberi/cse341-node2#readme",
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.7.3"
+  }
 }
