@@ -30,4 +30,9 @@ app.use('/', require('./routes'));
 app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 
+// Initialize DB connection
+connection().catch((err) => {
+    console.error('Failed to connect to database:', err.message);
+});
+
 app.listen(process.env.PORT || 3000);

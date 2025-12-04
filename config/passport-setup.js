@@ -1,14 +1,15 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
+const User = require('../models/user');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-    User.findById(id).then((user) => {
-        done(null, user);
-    });
+    User.findById(id)
+        .then((user) => done(null, user))
+        .catch((err) => done(err));
 });
 
 passport.use(
@@ -17,19 +18,19 @@ passport.use(
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
         callbackURL: '/auth/github/callback'
     }, (accessToken, refreshToken, profile, done) => {
-        User.findOne({ githubId: profile.id }).then((currentUser) => {
-            if (currentUser) {
-                done(null, currentUser);
-            } else {
-                new User({
+        User.findOne({ githubId: profile.id })
+            .then((currentUser) => {
+                if (currentUser) {
+                    return done(null, currentUser);
+                }
+                const user = new User({
                     githubId: profile.id,
-                    displayName: profile.displayName,
+                    displayName: profile.displayName || profile.username,
                     username: profile.username,
-                    image: profile.photos[0].value
-                }).save().then((newUser) => {
-                    done(null, newUser);
+                    image: Array.isArray(profile.photos) && profile.photos[0] ? profile.photos[0].value : ''
                 });
-            }
-        });
+                return user.save().then((newUser) => done(null, newUser));
+            })
+            .catch((err) => done(err));
     })
 );

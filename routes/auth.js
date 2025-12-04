@@ -8,17 +8,21 @@ router.get('/login', (req, res) => {
 
 // auth logout
 router.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
+    req.logout((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Logout error' });
+        }
+        res.redirect('/');
+    });
 });
 
-// auth with google
-router.get('/auth/github', passport.authenticate('github', {
+// auth with github
+router.get('/github', passport.authenticate('github', {
     scope: ['user:email']
 }));
 
-// callback route for google to redirect to
-router.get('/auth/github/callback', passport.authenticate('github'), (req, res) => {
+// callback route for github to redirect to
+router.get('/github/callback', passport.authenticate('github'), (req, res) => {
     res.redirect('/profile/');
 });
 

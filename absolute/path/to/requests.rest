@@ -1,5 +1,0 @@
-GET http://localhost:3000/contacts
-Authorization: Bearer {{token}}
-
-###
-GET http://localhost:3000/shows?genre=rock

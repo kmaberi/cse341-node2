@@ -8,10 +8,10 @@ const { ensureAdmin } = require('../middleware/check-role');
 router.get('/', showsController.getAllShows);
 router.get('/:id', showsController.getShowById);
 router.post('/', ensureAuth, showValidationRules(), validate, showsController.createShow);
-/*  #swagger.security = [{ "google": ["profile"] }] */
+/*  #swagger.security = [{ "github": ["user:email"] }] */
 router.put('/:id', ensureAuth, showValidationRules(), validate, showsController.updateShow);
-/*  #swagger.security = [{ "google": ["profile"] }] */
+/*  #swagger.security = [{ "github": ["user:email"] }] */
 router.delete('/:id', ensureAuth, ensureAdmin, showsController.deleteShow);
-/*  #swagger.security = [{ "google": ["profile"] }] */
+/*  #swagger.security = [{ "github": ["user:email"] }] */
 
 module.exports = router;
