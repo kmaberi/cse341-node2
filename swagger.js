@@ -1,20 +1,23 @@
 const swaggerAutogen = require('swagger-autogen')();
 
+const scheme = process.env.SWAGGER_SCHEME || 'http';
+const host = process.env.SWAGGER_HOST || 'localhost:3000';
+
 const doc = {
   info: {
     title: 'Project 2 API',
     description: 'API for Project 2',
     version: '1.0.0'
   },
-  host: 'localhost:3000',
+  host: host,
   basePath: '/',
-  schemes: ['http'],
+  schemes: [scheme],
   consumes: ['application/json'],
   produces: ['application/json'],
   securityDefinitions: {
     github: {
       type: 'oauth2',
-      authorizationUrl: 'http://localhost:3000/auth/github',
+      authorizationUrl: `${scheme}://${host}/auth/github`,
       flow: 'implicit',
       scopes: {
         'user:email': 'Read user email address'
